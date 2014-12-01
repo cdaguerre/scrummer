@@ -1,0 +1,11 @@
+github:
+    user:           %GITHUB_USER%
+    password:       %GITHUB_PASSWORD%
+    organization:   %GITHUB_ORGANIZATION%
+    repository:     %GITHUB_REPOSITORY%
+
+trello:
+    api_key:        %TRELLO_API_KEY%
+    secret:         %TRELLO_SECRET%
+    token:          %TRELLO_TOKEN%
+    board_id:       %TRELLO_BOARD_ID%    

@@ -1,0 +1,16 @@
+{
+    "require": {
+        "silex/silex": "~1.2",
+        "knplabs/github-api": "~1.2",
+        "cdaguerre/php-trello-api": "dev-master",
+        "monolog/monolog": ">=1.0.0",
+        "symfony/yaml": "~2.4",
+        "twig/twig": ">=1.8,<2.0-dev"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~4.0"
+    },    
+    "autoload": {
+        "psr-0": { "Scrummer": "src/" }
+    }
+}

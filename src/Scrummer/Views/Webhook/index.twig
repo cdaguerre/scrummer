@@ -1,0 +1,43 @@
+<table>
+    <tr>
+        <th>Id</th>
+        <th>Decsription</th>
+        <th>Model</th>
+        <th>Callback URL</th>
+        <th>Active</th>
+    </tr>
+    {% for webhook in webhooks %}
+        <tr>
+            <td>{{ webhook.id }}</td>
+            <td>{{ webhook.description }}</td>
+            <td>{{ webhook.modelId }}</td>
+            <td>{{ webhook.callbackURL }}</td>
+            <td>{{ webhook.isActive }}</td>
+            <td>    
+                <form method="POST" action="/trello/webhooks/{{ webhook.id }}">
+                    <input type="hidden" id="_method" name="_method" value="DELETE" />
+                    <input type="submit" />
+                </form>
+            </td>
+        </tr>
+    {% endfor %}
+</table>
+
+<table>
+    <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Decsription</th>
+        <th>Url</th>
+        <th>Has webhook</th>
+    </tr>
+    {% for board in boards %}
+        <tr>
+            <td>{{ board.id }}</td>
+            <td>{{ board.name }}</td>
+            <td>{{ board.description }}</td>
+            <td><a href="{{ board.shortUrl }}">{{ board.shortLink }}</a></td>
+            <td>{% if map[board.id] is defined %}Yes{% else %}No{% endif %}</td>
+        </tr>
+    {% endfor %}
+</table>
