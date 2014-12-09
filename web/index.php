@@ -25,7 +25,7 @@ $app = new Application();
 $app->get('/trello/webhooks', function (Request $request) use ($app) {
     $manager = $app['scrummer']->getTrelloManager();
 
-    $token = $manager->getToken($app['config']['trello']['token']);
+    $token = $manager->getToken($app['config']['trello.token']);
 
     $webhooks = $token->getWebhooks();
 
