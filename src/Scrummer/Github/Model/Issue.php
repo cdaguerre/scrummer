@@ -200,12 +200,12 @@ class Issue implements IssueInterface
         return $this;
     }
 
-    public function isComplete()
+    public function isClosed()
     {
         return $this->data['state'] !== 'closed';
     }
 
-    public function setComplete($bool = true)
+    public function setClosed($bool = true)
     {
         $this->data['state'] = $bool ? 'closed' : 'open';
 
@@ -239,6 +239,10 @@ class Issue implements IssueInterface
 
         if (!isset($data['title'])) {
             $data['title'] = null;
+        }
+
+        if (!isset($data['state'])) {
+            $data['state'] = 'open';
         }
 
         $this->data = $data;
