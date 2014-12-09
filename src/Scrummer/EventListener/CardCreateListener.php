@@ -15,9 +15,6 @@ class CardCreateListener extends AbstractEventListener implements EventSubscribe
 
     public function onCardCreate(CardEvent $event)
     {
-        echo 'happend';
-        die;
-
         $card = $event->getCard();
 
         $issue = $this->scrummer
