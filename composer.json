@@ -6,7 +6,7 @@
         "monolog/monolog": ">=1.0.0",
         "symfony/yaml": "~2.4",
         "twig/twig": ">=1.8,<2.0-dev",
-         "incenteev/composer-parameter-handler": "~2.0"
+        "incenteev/composer-parameter-handler": "~2.0"
     },
     "require-dev": {
         "phpunit/phpunit": "~4.0"
