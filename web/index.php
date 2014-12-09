@@ -10,13 +10,13 @@ use Scrummer\Github\Service as GithubService;
 use Scrummer\Scrummer;
 use Scrummer\Application;
 
-// ini_set('date.timezone', 'Europe/Paris');
-// ini_set('display_errors', 1);
-// error_reporting(-1);
-// ErrorHandler::register();
-// if ('cli' !== php_sapi_name()) {
-//     ExceptionHandler::register();
-// }
+ini_set('date.timezone', 'Europe/Paris');
+ini_set('display_errors', 1);
+error_reporting(-1);
+ErrorHandler::register();
+if ('cli' !== php_sapi_name()) {
+    ExceptionHandler::register();
+}
 
 Request::enableHttpMethodParameterOverride();
 
