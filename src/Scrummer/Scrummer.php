@@ -244,7 +244,7 @@ class Scrummer
         $body = trim(preg_replace(self::TRELLO_LINK_REGEX, '', $body))."\n";
 
         foreach ($cardIds as $cardId) {
-            $body .= "\n".$cardId;
+            $body .= "\n - [ ]".$cardId;
         }
 
         $issue->setBody($body);

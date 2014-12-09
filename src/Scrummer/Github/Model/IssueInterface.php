@@ -66,7 +66,7 @@ interface IssueInterface
 
     public function removeLabel($label);
 
-    public function setComplete($bool = true);
+    public function setClosed($bool = true);
 
     public static function extractIssueIdsFromString($string);
 }

@@ -2,7 +2,7 @@
     "require": {
         "silex/silex": "~1.2",
         "knplabs/github-api": "~1.2",
-        "cdaguerre/php-trello-api": "dev-master",
+        "cdaguerre/php-trello-api": "@dev",
         "monolog/monolog": ">=1.0.0",
         "symfony/yaml": "~2.4",
         "twig/twig": ">=1.8,<2.0-dev",

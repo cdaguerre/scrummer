@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "fe081bffc227b0bcfdf42bcb8e380193",
+    "hash": "4e31003f4eb74afeca2addad33ad99f7",
     "packages": [
         {
             "name": "cdaguerre/php-trello-api",
@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/cdaguerre/php-trello-api.git",
-                "reference": "ed068d5fa42f5c5d9643f34462c775bed3d34c38"
+                "reference": "fbb9e2fd6e6ac4b2d794abf99826f4e0c23a91a3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cdaguerre/php-trello-api/zipball/ed068d5fa42f5c5d9643f34462c775bed3d34c38",
-                "reference": "ed068d5fa42f5c5d9643f34462c775bed3d34c38",
+                "url": "https://api.github.com/repos/cdaguerre/php-trello-api/zipball/fbb9e2fd6e6ac4b2d794abf99826f4e0c23a91a3",
+                "reference": "fbb9e2fd6e6ac4b2d794abf99826f4e0c23a91a3",
                 "shasum": ""
             },
             "require": {
@@ -53,7 +53,7 @@
             "keywords": [
                 "trello"
             ],
-            "time": "2014-11-30 22:29:36"
+            "time": "2014-12-09 21:40:57"
         },
         {
             "name": "guzzle/guzzle",
