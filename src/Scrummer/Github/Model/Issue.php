@@ -202,7 +202,7 @@ class Issue implements IssueInterface
 
     public function isClosed()
     {
-        return $this->data['state'] !== 'closed';
+        return $this->data['state'] === 'closed';
     }
 
     public function setClosed($bool = true)

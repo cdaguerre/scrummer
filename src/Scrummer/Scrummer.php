@@ -172,7 +172,7 @@ class Scrummer
         $checklist = $card->getChecklist(self::GITHUB_CHECKLIST_NAME);
 
         foreach ($issues as $issue) {
-            $checklist->setItem($issue->getUrl(), $issue->isClosed());
+            $checklist->setItem($issue->getHtmlUrl(), $issue->isClosed());
         }
 
         $checklist->save();
