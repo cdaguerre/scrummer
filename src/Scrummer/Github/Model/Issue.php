@@ -260,7 +260,10 @@ class Issue implements IssueInterface
             return $this;
         }
 
-        throw new BadMethodCallException();
+        throw new BadMethodCallException(sprintf(
+            'Class "%s" has no method named "%s".',
+            $method
+        ));
     }
 
     /**
