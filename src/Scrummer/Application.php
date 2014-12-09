@@ -26,7 +26,9 @@ class Application extends BaseApplication
         ));
 
         $this->before(function (Request $request) {
+            $this['logger']->addDebug('in before hook');
             if (0 === strpos($request->headers->get('Content-Type'), 'application/json')) {
+                $this['logger']->addDebug('has json header');
                 $data = json_decode($request->getContent(), true);
                 $request->request->replace(is_array($data) ? $data : array());
             }
