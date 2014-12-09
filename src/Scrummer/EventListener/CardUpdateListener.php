@@ -16,7 +16,7 @@ class CardUpdateListener extends AbstractEventListener implements EventSubscribe
             Events::CARD_UPDATE => 'onCardUpdate',
             Events::CARD_ADD_LABEL => 'onCardLabelAdd',
             Events::CARD_REMOVE_LABEL => 'onCardLabelRemove',
-            Events::CARD_UPDATE_CHECKLIST_ITEM_STATE => 'onCheckItemStateChange',
+            Events::CARD_UPDATE_CHECKLIST => 'onCheckItemStateChange',
         );
     }
 
