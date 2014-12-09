@@ -1,4 +1,5 @@
 parameters:
+  debug: true
   github.user:         "%GITHUB_USER%"
   github.password:     "%GITHUB_PASSWORD%"
   github.organization: "%GITHUB_ORGANIZATION%"
