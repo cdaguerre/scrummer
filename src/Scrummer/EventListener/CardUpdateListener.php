@@ -7,6 +7,7 @@ use Trello\Events;
 use Trello\Event\CardEvent;
 use Trello\Event\CardChecklistEvent;
 use Scrummer\Scrum\LabelMap;
+use Scrummer\Scrummer;
 
 class CardUpdateListener extends AbstractEventListener implements EventSubscriberInterface
 {
