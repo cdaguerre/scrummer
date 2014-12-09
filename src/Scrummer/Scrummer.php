@@ -247,7 +247,7 @@ class Scrummer
         $body = trim(preg_replace(self::TRELLO_LINK_REGEX, '', $body))."\n";
 
         foreach ($cards as $card) {
-            $body .= "\n - [".($card->isClosed() ? 'X' : ' ').'] '.$card->getUrl();
+            $body .= "\n - [".($card->isClosed() ? 'X' : ' ').'] '.$card->getShortUrl();
         }
 
         $issue->setBody($body);
