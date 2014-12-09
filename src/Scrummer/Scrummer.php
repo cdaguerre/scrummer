@@ -232,19 +232,21 @@ class Scrummer
      */
     public function addCardsToIssue(IssueInterface $issue, array $cards)
     {
-        $body = $issue->getBody();
-        $cardIds = $this->extractCardIdsFromString($body);
-
-        foreach ($cards as $card) {
-            $cardIds[] = $card->getShortUrl();
+        foreach ($cards as $key => $card) {
+            unset($cards[$key]);
+            $cards[$card->getId()] = $card;
         }
 
-        $cardIds = array_unique($cardIds);
+        $body = $issue->getBody();
+
+        foreach ($this->extractCardIdsFromString($body) as $cardId) {
+            $cards[$cardId] = $this->getCard($cardId);
+        }
 
         $body = trim(preg_replace(self::TRELLO_LINK_REGEX, '', $body))."\n";
 
-        foreach ($cardIds as $cardId) {
-            $body .= "\n - [ ]".$cardId;
+        foreach ($cards as $card) {
+            $body .= "\n - [".($card->isClosed() ? 'X' : ' ').'] '.$card->getUrl();
         }
 
         $issue->setBody($body);
