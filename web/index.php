@@ -22,6 +22,13 @@ Request::enableHttpMethodParameterOverride();
 
 $app = new Application();
 
+$app->before(function (Request $request) {
+    if (0 === strpos($request->headers->get('Content-Type'), 'application/json')) {
+        $data = json_decode($request->getContent(), true);
+        $request->request->replace(is_array($data) ? $data : array());
+    }
+});
+
 $app->get('/trello/webhooks', function (Request $request) use ($app) {
     $manager = $app['scrummer']->getTrelloManager();
 
