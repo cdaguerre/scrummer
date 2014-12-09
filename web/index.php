@@ -52,11 +52,11 @@ $app->delete('/trello/webhooks/{id}', function ($id) use ($app) {
 });
 
 $app->post('/trello', function (Request $request) use ($app) {
-    if (!$postData = $request->request->get('action', false)) {
+    if ($request->request->get('action', false)) {
         return 'NA';
     }
 
-    $app['logger']->addDebug($postData['type'].': '.$request->getContent());
+    $app['logger']->addDebug($request->getContent());
 
     $client = $app['scrummer']->getTrelloClient();
     $service = new TrelloService($client, $app['dispatcher']);
