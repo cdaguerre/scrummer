@@ -4,10 +4,11 @@ namespace Scrummer;
 
 use Trello\Client as TrelloClient;
 use Github\Client as GithubClient;
+use Trello\Manager;
 use Trello\Model\Card;
 use Trello\Model\CardInterface;
-use Trello\Manager;
 use Scrummer\Github\Model\Issue;
+use Scrummer\Github\Model\IssueInterface;
 
 class Scrummer
 {
