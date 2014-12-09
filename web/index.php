@@ -9,6 +9,12 @@ use Trello\Service as TrelloService;
 use Scrummer\Github\Service as GithubService;
 use Scrummer\Scrummer;
 use Scrummer\Application;
+use Scrummer\EventListener\CardCreateListener;
+use Scrummer\EventListener\CardUpdateListener;
+use Scrummer\EventListener\IssueOpenListener;
+use Scrummer\EventListener\IssueReopenListener;
+use Scrummer\EventListener\IssueCloseListener;
+use Scrummer\EventListener\IssueLabelListener;
 
 ini_set('date.timezone', 'Europe/Paris');
 ini_set('display_errors', 1);
@@ -72,8 +78,8 @@ $app->post('/trello', function (Request $request) use ($app) {
     $client = $app['scrummer']->getTrelloClient();
     $service = new TrelloService($client, $app['dispatcher']);
 
-    $service->addEventSubscriber(new Scrummer\EventListener\CardUpdateListener($app['scrummer']));
-    $service->addEventSubscriber(new Scrummer\EventListener\CardCreateListener($app['scrummer']));
+    $service->addEventSubscriber(new CardUpdateListener($app['scrummer']));
+    $service->addEventSubscriber(new CardCreateListener($app['scrummer']));
 
     $service->handleWebhook($request);
 
@@ -85,10 +91,10 @@ $app->post('/github', function (Request $request) use ($app) {
     $client = $app['scrummer']->getGithubClient();
     $service = new GithubService($client, $app['dispatcher']);
 
-    $service->addEventSubscriber(new Scrummer\EventListener\IssueOpenListener($app['scrummer']));
-    $service->addEventSubscriber(new Scrummer\EventListener\IssueCloseListener($app['scrummer']));
-    $service->addEventSubscriber(new Scrummer\EventListener\IssueReopenListener($app['scrummer']));
-    $service->addEventSubscriber(new Scrummer\EventListener\IssueLabelListener($app['scrummer']));
+    $service->addEventSubscriber(new IssueOpenListener($app['scrummer']));
+    $service->addEventSubscriber(new IssueCloseListener($app['scrummer']));
+    $service->addEventSubscriber(new IssueReopenListener($app['scrummer']));
+    $service->addEventSubscriber(new IssueLabelListener($app['scrummer']));
 
     $service->handleWebhook($request);
 
