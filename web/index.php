@@ -74,6 +74,14 @@ $app->post('/trello', function (Request $request) use ($app) {
     $client = $app['scrummer']->getTrelloClient();
     $service = new TrelloService($client, $app['dispatcher']);
 
+    if (!$request->getMethod() === 'POST') {
+        $app['logger']->addDebug('not post');
+    }
+
+    if (!$request->headers->has('X-Trello-Webhook')) {
+        $app['logger']->addDebug('no header');
+    }
+
     $service->addEventSubscriber(new CardUpdateListener($app['scrummer']));
     $service->addEventSubscriber(new CardCreateListener($app['scrummer']));
 
