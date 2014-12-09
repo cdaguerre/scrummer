@@ -36,6 +36,20 @@ class Application extends BaseApplication
             $this['debug'] = true;
         }
 
-        $this['scrummer'] = new Scrummer($this['config']['trello'], $this['config']['github']);
+        $github = array(
+            'user'         => $this['config']['github.user'],
+            'password'     => $this['config']['github.password'],
+            'organization' => $this['config']['github.organization'],
+            'repository'   => $this['config']['github.repository'],
+        );
+
+        $trello = array(
+            'api_key'      => $this['config']['trello.api_key'],
+            'secret'       => $this['config']['trello.secret'],
+            'token'        => $this['config']['trello.token'],
+            'board_id'     => $this['config']['trello.board_id'],
+        );
+
+        $this['scrummer'] = new Scrummer($trello, $github);
     }
 }
