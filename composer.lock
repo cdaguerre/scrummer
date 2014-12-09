@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/cdaguerre/php-trello-api.git",
-                "reference": "fbb9e2fd6e6ac4b2d794abf99826f4e0c23a91a3"
+                "reference": "f2c108e3b411bd7ab920d88e7e16e8c9c9830315"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cdaguerre/php-trello-api/zipball/fbb9e2fd6e6ac4b2d794abf99826f4e0c23a91a3",
-                "reference": "fbb9e2fd6e6ac4b2d794abf99826f4e0c23a91a3",
+                "url": "https://api.github.com/repos/cdaguerre/php-trello-api/zipball/f2c108e3b411bd7ab920d88e7e16e8c9c9830315",
+                "reference": "f2c108e3b411bd7ab920d88e7e16e8c9c9830315",
                 "shasum": ""
             },
             "require": {
@@ -53,7 +53,7 @@
             "keywords": [
                 "trello"
             ],
-            "time": "2014-12-09 21:40:57"
+            "time": "2014-12-09 22:27:00"
         },
         {
             "name": "guzzle/guzzle",

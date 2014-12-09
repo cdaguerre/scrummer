@@ -73,6 +73,9 @@ class CardUpdateListener extends AbstractEventListener implements EventSubscribe
 
         $issueIds = $this->scrummer->extractIssueIdsFromString($data['checkItem']['name']);
 
+        var_dump($checklist->getName());
+        die;
+
         if (!count($issueIds) || $checklist->getName() !== Scrummer::GITHUB_CHECKLIST_NAME) {
             return;
         }
