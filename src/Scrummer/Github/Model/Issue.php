@@ -237,6 +237,10 @@ class Issue implements IssueInterface
             $data['body'] = null;
         }
 
+        if (!isset($data['title'])) {
+            $data['title'] = null;
+        }
+
         $this->data = $data;
     }
 
