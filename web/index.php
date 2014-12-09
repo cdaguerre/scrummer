@@ -55,12 +55,12 @@ $app->post('/trello', function (Request $request) use ($app) {
     $app['logger']->addDebug($request->getContent());
 
     if ($request->request->get('action', false)) {
-        $this['logger']->addDebug('has no action');
+        $app['logger']->addDebug('has no action');
 
         return 'NA';
     }
 
-    $this['logger']->addDebug('has action');
+    $app['logger']->addDebug('has action');
 
     $client = $app['scrummer']->getTrelloClient();
     $service = new TrelloService($client, $app['dispatcher']);
