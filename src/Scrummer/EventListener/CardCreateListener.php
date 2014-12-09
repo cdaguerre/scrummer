@@ -23,6 +23,7 @@ class CardCreateListener extends AbstractEventListener implements EventSubscribe
             ->setBody($card->getDescription())
             ->save();
 
+        $this->scrummer->addCardsToIssue($issue, array($card));
         $this->scrummer->addIssuesToCard($card, array($issue));
     }
 }
