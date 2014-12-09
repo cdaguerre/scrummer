@@ -28,12 +28,12 @@ Request::enableHttpMethodParameterOverride();
 
 $app = new Application();
 
-// $app->before(function (Request $request) {
-//     if (0 === strpos($request->headers->get('Content-Type'), 'application/json')) {
-//         $data = json_decode($request->getContent(), true);
-//         $request->request->replace(is_array($data) ? $data : array());
-//     }
-// });
+$app->before(function (Request $request) {
+    if (0 === strpos($request->headers->get('Content-Type'), 'application/json')) {
+        $data = json_decode($request->getContent(), true);
+        $request->request->replace(is_array($data) ? $data : array());
+    }
+});
 
 $app->get('/trello/webhooks', function (Request $request) use ($app) {
     $manager = $app['scrummer']->getTrelloManager();
@@ -67,13 +67,9 @@ $app->delete('/trello/webhooks/{id}', function ($id) use ($app) {
 $app->post('/trello', function (Request $request) use ($app) {
     $app['logger']->addDebug($request->getContent());
 
-    if ($request->request->get('action', false)) {
-        $app['logger']->addDebug('has no action');
-
+    if (!$request->request->get('action', false)) {
         return 'NA';
     }
-
-    $app['logger']->addDebug('has action');
 
     $client = $app['scrummer']->getTrelloClient();
     $service = new TrelloService($client, $app['dispatcher']);
