@@ -262,6 +262,7 @@ class Issue implements IssueInterface
 
         throw new BadMethodCallException(sprintf(
             'Class "%s" has no method named "%s".',
+            get_called_class(),
             $method
         ));
     }
