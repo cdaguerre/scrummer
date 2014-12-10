@@ -3,12 +3,10 @@
 require_once __DIR__.'/../vendor/autoload.php';
 
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Debug\ErrorHandler;
-use Symfony\Component\HttpKernel\Debug\ExceptionHandler;
 use Trello\Service as TrelloService;
-use Scrummer\Github\Service as GithubService;
 use Scrummer\Scrummer;
 use Scrummer\Application;
+use Scrummer\Github\Service as GithubService;
 use Scrummer\EventListener\CardCreateListener;
 use Scrummer\EventListener\CardUpdateListener;
 use Scrummer\EventListener\IssueOpenListener;
@@ -16,26 +14,12 @@ use Scrummer\EventListener\IssueReopenListener;
 use Scrummer\EventListener\IssueCloseListener;
 use Scrummer\EventListener\IssueLabelListener;
 
-ini_set('date.timezone', 'Europe/Paris');
-ini_set('display_errors', 1);
-error_reporting(-1);
-ErrorHandler::register();
-if ('cli' !== php_sapi_name()) {
-    ExceptionHandler::register();
-}
-
 Request::enableHttpMethodParameterOverride();
 
 $app = new Application();
 
-$app->before(function (Request $request) {
-    if (0 === strpos($request->headers->get('Content-Type'), 'application/json')) {
-        $data = json_decode($request->getContent(), true);
-        $request->request->replace(is_array($data) ? $data : array());
-    }
-});
-
 $app->get('/trello/webhooks', function (Request $request) use ($app) {
+
     $manager = $app['scrummer']->getTrelloManager();
 
     $token = $manager->getToken($app['config']['trello.token']);
@@ -56,6 +40,7 @@ $app->get('/trello/webhooks', function (Request $request) use ($app) {
 });
 
 $app->delete('/trello/webhooks/{id}', function ($id) use ($app) {
+
     $manager = $app['scrummer']->getTrelloManager();
 
     $webhook = $manager->getWebhook($id);
@@ -64,49 +49,36 @@ $app->delete('/trello/webhooks/{id}', function ($id) use ($app) {
     return $app->redirect('/trello/webhooks');
 });
 
-$app->post('/trello', function (Request $request) use ($app) {
-    $app['logger']->addDebug($request->getContent());
-
-    if (!$request->request->get('action', false)) {
-        return 'NA';
-    }
-
-    $client = $app['scrummer']->getTrelloClient();
-    $service = new TrelloService($client, $app['dispatcher']);
-
-    // if (!$request->getMethod() === 'POST') {
-    //     $app['logger']->addDebug('not post');
-    // } else {
-    //     $app['logger']->addDebug('is post');
-    // }
-
-    // if (!$request->headers->has('X-Trello-Webhook')) {
-    //     $app['logger']->addDebug('no header');
-    // } else {
-    //     $app['logger']->addDebug('has header');
-    // }
-
-    // $app['logger']->addDebug('Is Trello webhook : '.$service->isTrelloWebhook($request) ? 'yes' : 'no');
-
-    $service->addEventSubscriber(new CardUpdateListener($app['scrummer']));
-    $service->addEventSubscriber(new CardCreateListener($app['scrummer']));
-
-    $service->handleWebhook($request);
+$app->get('/endpoint', function (Request $request) use ($app) {
 
     return 'OK';
 });
 
-$app->post('/github', function (Request $request) use ($app) {
+$app->post('/endpoint', function (Request $request) use ($app) {
 
-    $client = $app['scrummer']->getGithubClient();
-    $service = new GithubService($client, $app['dispatcher']);
+    $app['logger']->addDebug($request->getContent());
 
-    $service->addEventSubscriber(new IssueOpenListener($app['scrummer']));
-    $service->addEventSubscriber(new IssueCloseListener($app['scrummer']));
-    $service->addEventSubscriber(new IssueReopenListener($app['scrummer']));
-    $service->addEventSubscriber(new IssueLabelListener($app['scrummer']));
+    $scrummer   = $app['scrummer'];
+    $dispatcher = $app['dispatcher'];
 
-    $service->handleWebhook($request);
+    $githubClient = $scrummer->getGithubClient();
+    $trelloClient = $scrummer->getTrelloClient();
+
+    $githubService = new GithubService($githubClient, $dispatcher);
+    $trelloService = new TrelloService($trelloClient, $dispatcher);
+
+    // Trello events
+    $dispatcher->addEventSubscriber(new CardUpdateListener($scrummer));
+    $dispatcher->addEventSubscriber(new CardCreateListener($scrummer));
+
+    // Github events
+    $dispatcher->addEventSubscriber(new IssueOpenListener($scrummer));
+    $dispatcher->addEventSubscriber(new IssueCloseListener($scrummer));
+    $dispatcher->addEventSubscriber(new IssueReopenListener($scrummer));
+    $dispatcher->addEventSubscriber(new IssueLabelListener($scrummer));
+
+    $githubService->handleWebhook($request);
+    $trelloService->handleWebhook($request);
 
     return 'OK';
 });
@@ -122,10 +94,6 @@ $app->get('/deployment', function (Request $request) use ($app) {
     $client->lists()->cards()->moveAll($toBeStaged->getId(), $board->getId(), $staged->getId());
 
     return 'OK';
-});
-
-$app->get('/trello', function (Request $request) use ($app) {
-    return 'Trello set up.';
 });
 
 $app->run();

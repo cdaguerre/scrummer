@@ -7,6 +7,8 @@ use Silex\Application\MonologTrait;
 use Silex\Provider\MonologServiceProvider;
 use Silex\Provider\TwigServiceProvider;
 use Scrummer\Yaml\YamlConfigServiceProvider;
+use Symfony\Component\HttpKernel\Debug\ErrorHandler;
+use Symfony\Component\HttpKernel\Debug\ExceptionHandler;
 
 class Application extends BaseApplication
 {
@@ -24,8 +26,24 @@ class Application extends BaseApplication
             'twig.path' => __DIR__.'/Views',
         ));
 
+        $this->before(function (Request $request) {
+            if (0 === strpos($request->headers->get('Content-Type'), 'application/json')) {
+                $data = json_decode($request->getContent(), true);
+                $request->request->replace(is_array($data) ? $data : array());
+            }
+        });
+
         if ($this['config']['debug']) {
             $this['debug'] = true;
+
+            ini_set('date.timezone', 'Europe/Paris');
+            ini_set('display_errors', 1);
+            error_reporting(-1);
+            ErrorHandler::register();
+
+            if ('cli' !== php_sapi_name()) {
+                ExceptionHandler::register();
+            }
         }
 
         $github = array(
