@@ -20,21 +20,25 @@ class CardLabelListener extends AbstractEventListener implements EventSubscriber
 
     public function onCardLabelAdd(CardEvent $event)
     {
-        $card = $event->getCard();
-        $data = $event->getRequestData();
-
-        foreach ($this->scrummer->getIssuesAssociatedToCard($card) as $issue) {
-            $issue->addLabels(LabelMap::trelloToGithub($data['label']['color']));
-        }
+        $this->handleLabelChange($event, 'add');
     }
 
     public function onCardLabelRemove(CardEvent $event)
+    {
+        $this->handleLabelChange($event, 'remove');
+    }
+
+    private function handleLabelChange(CardEvent $event, $action)
     {
         $card = $event->getCard();
         $data = $event->getRequestData();
 
         foreach ($this->scrummer->getIssuesAssociatedToCard($card) as $issue) {
-            $issue->removeLabel(LabelMap::trelloToGithub($data['value']));
+            if ($action === 'add') {
+                $issue->addLabels(LabelMap::trelloToGithub($data['label']['color']));
+            } elseif ($action === 'remove') {
+                $issue->removeLabel(LabelMap::trelloToGithub($data['value']));
+            }
         }
     }
 }
