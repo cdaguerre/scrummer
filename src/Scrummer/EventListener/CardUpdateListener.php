@@ -24,7 +24,6 @@ class CardUpdateListener extends AbstractEventListener implements EventSubscribe
     public function onCardUpdate(CardEvent $event)
     {
         $card = $event->getCard();
-
         $issues = $this->scrummer->getIssuesAssociatedToCard($card);
 
         // Sync completion
