@@ -6,7 +6,6 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Trello\Events;
 use Trello\Event\CardEvent;
 use Trello\Event\CardChecklistEvent;
-use Scrummer\Scrum\LabelMap;
 use Scrummer\Scrummer;
 
 class CardUpdateListener extends AbstractEventListener implements EventSubscriberInterface
@@ -15,8 +14,6 @@ class CardUpdateListener extends AbstractEventListener implements EventSubscribe
     {
         return array(
             Events::CARD_UPDATE => 'onCardUpdate',
-            Events::CARD_ADD_LABEL => 'onCardLabelAdd',
-            Events::CARD_REMOVE_LABEL => 'onCardLabelRemove',
             Events::CARD_UPDATE_CHECKLIST_ITEM_STATE => 'onCheckItemStateChange',
         );
     }
@@ -44,26 +41,6 @@ class CardUpdateListener extends AbstractEventListener implements EventSubscribe
         }
     }
 
-    public function onCardLabelAdd(CardEvent $event)
-    {
-        $card = $event->getCard();
-        $data = $event->getRequestData();
-
-        foreach ($this->scrummer->getIssuesAssociatedToCard($card) as $issue) {
-            $issue->addLabels(LabelMap::trelloToGithub($data['label']['color']));
-        }
-    }
-
-    public function onCardLabelRemove(CardEvent $event)
-    {
-        $card = $event->getCard();
-        $data = $event->getRequestData();
-
-        foreach ($this->scrummer->getIssuesAssociatedToCard($card) as $issue) {
-            $issue->removeLabel(LabelMap::trelloToGithub($data['value']));
-        }
-    }
-
     public function onCheckItemStateChange(CardChecklistEvent $event)
     {
         $data = $event->getRequestData();
@@ -71,9 +48,6 @@ class CardUpdateListener extends AbstractEventListener implements EventSubscribe
         $checklist = $event->getChecklist();
 
         $issueIds = $this->scrummer->extractIssueIdsFromString($data['checkItem']['name']);
-
-        var_dump($checklist->getName());
-        die;
 
         if (!count($issueIds) || $checklist->getName() !== Scrummer::GITHUB_CHECKLIST_NAME) {
             return;

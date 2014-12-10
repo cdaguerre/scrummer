@@ -9,6 +9,7 @@ use Scrummer\Application;
 use Scrummer\Github\Service as GithubService;
 use Scrummer\EventListener\CardCreateListener;
 use Scrummer\EventListener\CardUpdateListener;
+use Scrummer\EventListener\CardLabelListener;
 use Scrummer\EventListener\IssueOpenListener;
 use Scrummer\EventListener\IssueReopenListener;
 use Scrummer\EventListener\IssueCloseListener;
@@ -70,6 +71,7 @@ $app->post('/endpoint', function (Request $request) use ($app) {
     // Trello events
     $dispatcher->addEventSubscriber(new CardUpdateListener($scrummer));
     $dispatcher->addEventSubscriber(new CardCreateListener($scrummer));
+    $dispatcher->addEventSubscriber(new CardLabelListener($scrummer));
 
     // Github events
     $dispatcher->addEventSubscriber(new IssueOpenListener($scrummer));
